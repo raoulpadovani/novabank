@@ -1,0 +1,132 @@
+.transactions-page {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.transactions-page h1 {
+  color: white;
+  margin-bottom: 30px;
+}
+
+.transactions-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: white;
+  color: #667eea;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background: #667eea;
+  color: white;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-buttons button.active {
+  background: white;
+  color: #667eea;
+}
+
+.transactions-list-full {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-full {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  transition: background 0.3s;
+}
+
+.transaction-full:hover {
+  background: #f9f9f9;
+}
+
+.transaction-full:last-child {
+  border-bottom: none;
+}
+
+.tx-details h3 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.tx-details p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.tx-details small {
+  color: #999;
+}
+
+.tx-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.tx-amount-large {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.tx-amount-large.revenu {
+  color: #28a745;
+}
+
+.tx-amount-large.depense {
+  color: #dc3545;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}

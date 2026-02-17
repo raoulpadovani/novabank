@@ -1,0 +1,163 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.dashboard h1 {
+  color: white;
+  margin-bottom: 30px;
+}
+
+.solde-card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.solde-card h2 {
+  color: #667eea;
+  margin-bottom: 15px;
+}
+
+.solde-amount {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.solde-amount.positive {
+  color: #28a745;
+}
+
+.solde-amount.negative {
+  color: #dc3545;
+}
+
+.budgets-section {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.budgets-section h2 {
+  color: #667eea;
+  margin-bottom: 20px;
+}
+
+.budgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.budget-card {
+  border: 2px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.budget-card:hover {
+  transform: translateY(-5px);
+  border-color: #667eea;
+}
+
+.budget-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.budget-header h3 {
+  color: #333;
+}
+
+.budget-bar {
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.budget-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transition: width 0.3s;
+}
+
+.budget-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.budget-info .positive {
+  color: #28a745;
+}
+
+.budget-info .negative {
+  color: #dc3545;
+}
+
+.transactions-section {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.transactions-section h2 {
+  color: #667eea;
+  margin-bottom: 20px;
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.tx-title {
+  font-weight: bold;
+  color: #333;
+}
+
+.tx-date {
+  font-size: 0.9rem;
+  color: #999;
+  margin-top: 5px;
+}
+
+.tx-amount {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.tx-amount.income {
+  color: #28a745;
+}
+
+.tx-amount.expense {
+  color: #dc3545;
+}
