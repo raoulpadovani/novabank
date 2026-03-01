@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 3000;
@@ -10,6 +11,9 @@ const { getTransactionsByUser, createTransaction, deleteTransaction, transferBet
 // CORS pour permettre les requêtes depuis le front en dev
 app.use(cors());
 app.use(express.json());
+
+// Servir les fichiers statiques du frontend
+app.use(express.static(path.join(__dirname, '../front/dist')));
 
 app.get('/', (req, res) => {
   console.log('coucou plop');
@@ -129,11 +133,11 @@ app.post('/transactions', (req, res) => {
 app.delete('/depenses/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const userId = parseInt(req.query.user_id, 10);
-  
+
   if (!userId) {
     return res.status(400).json({ error: 'user_id requis en query param' });
   }
-  
+
   deleteDepense(id, userId, (err, result) => {
     if (err) return res.status(403).json({ error: err.message });
     res.json({ deleted: result.affectedRows === 1 });
@@ -144,11 +148,11 @@ app.delete('/depenses/:id', (req, res) => {
 app.delete('/transactions/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const userId = parseInt(req.query.user_id, 10);
-  
+
   if (!userId) {
     return res.status(400).json({ error: 'user_id requis en query param' });
   }
-  
+
   deleteTransaction(id, userId, (err, result) => {
     if (err) return res.status(403).json({ error: err.message });
     res.json({ deleted: result.affectedRows === 1 });
@@ -164,9 +168,13 @@ app.post('/virements', (req, res) => {
   });
 });
 
+// Toutes les autres routes renvoient vers l'app React (SPA)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front/dist/index.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
-
 
 

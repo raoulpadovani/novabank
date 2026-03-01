@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Utilise l'URL relative en production, localhost en dev
+const baseURL = import.meta.env.PROD ? '' : 'http://localhost:3000';
+
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL,
 });
 
 api.interceptors.request.use((config) => {
