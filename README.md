@@ -311,12 +311,7 @@ Les contributions sont bienvenues! Pour contribuer:
 
 Ce projet est sous licence **MIT**. Voir le fichier `LICENSE` pour plus de détails.
 
-## 📞 Support & Contact
 
-Pour toute question ou problème:
-- 📧 Email: support@novabank.local
-- 🐛 Issues: [GitHub Issues](/)
-- 💬 Discussions: [GitHub Discussions](/)
 
 ## 🙏 Remerciements
 
