@@ -1,6 +1,5 @@
 const con = require('./data');
 
-// Create table for beneficiaries if missing
 con.query(
 	`CREATE TABLE IF NOT EXISTS beneficiaires (
 		id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

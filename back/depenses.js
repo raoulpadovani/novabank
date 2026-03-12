@@ -1,10 +1,5 @@
 const con = require('./data');
 
-/**
- * Récupère les dépenses d'un utilisateur (categories de type 'depense')
- * @param {number} userId
- * @param {(err:Error|null, rows?:Array)=>void} cb
- */
 function getDepensesByUser(userId, cb) {
   const sql = `SELECT t.id, t.id_user, t.id_categorie, t.id_sous_categorie, t.titre, t.description, t.montant, t.date_transaction, t.lieu, t.date_creation, c.nom AS categorie, sc.nom AS sous_categorie
   FROM transactions t
@@ -18,11 +13,6 @@ function getDepensesByUser(userId, cb) {
   });
 }
 
-/**
- * Crée une dépense (insert dans transactions)
- * @param {object} depense
- * @param {(err:Error|null, result?:object)=>void} cb
- */
 function createDepense(depense, cb) {
   if (!depense || !depense.id_user || !depense.id_categorie || !depense.montant || !depense.date_transaction) {
     return cb(new Error('id_user, id_categorie, montant et date_transaction requis'));
@@ -48,17 +38,10 @@ function createDepense(depense, cb) {
   });
 }
 
-/**
- * Supprime une dépense par id et vérifie que c'est bien celle de l'utilisateur
- * @param {number} id
- * @param {number} userId
- * @param {(err:Error|null, result?:object)=>void} cb
- */
 function deleteDepense(id, userId, cb) {
   if (!id) return cb(new Error('id requis'));
   if (!userId) return cb(new Error('userId requis'));
   
-  // Vérifier que la dépense appartient à cet utilisateur
   const verifySql = 'SELECT id_user FROM transactions WHERE id = ? LIMIT 1';
   con.query(verifySql, [id], (err, results) => {
     if (err) return cb(err);

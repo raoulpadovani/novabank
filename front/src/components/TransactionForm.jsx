@@ -27,7 +27,6 @@ export default function TransactionForm({ userId, onSuccess }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    // Si le type change, mettre à jour l'id_categorie automatiquement
     if (name === "categorie_type") {
       const newIdCategorie = value === "revenu" ? 1 : 2;
       setFormData({ 
@@ -63,8 +62,6 @@ export default function TransactionForm({ userId, onSuccess }) {
         id_sous_categorie: formData.id_sous_categorie ? parseInt(formData.id_sous_categorie) : null,
         lieu: formData.lieu,
       };
-      
-      console.log("Envoi de la transaction:", payload);
       
       const { data } = await api.post("/transactions", payload);
 

@@ -45,7 +45,12 @@ export default function Dashboard() {
   };
 
   const calculateBudgets = (txs) => {
-    const newBudgets = { ...BUDGETS };
+    const newBudgets = {
+      loyer: { ...BUDGETS.loyer },
+      alimentaire: { ...BUDGETS.alimentaire },
+      shopping: { ...BUDGETS.shopping },
+      autre: { ...BUDGETS.autre },
+    };
 
     txs.forEach((tx) => {
       const categorie = tx.sous_categorie?.toLowerCase() || "";
@@ -89,7 +94,6 @@ export default function Dashboard() {
           <p className="mt-1 text-gray-600">Voici un aperçu de vos finances</p>
         </div>
 
-        {/* Solde Total */}
         <div className="rounded-2xl bg-gradient-to-r from-brand to-cyan-600 p-8 shadow-xl text-white">
           <h2 className="text-lg font-medium opacity-90">Solde Total</h2>
           <div className="mt-2 text-5xl font-bold">
@@ -100,17 +104,14 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Budgets */}
         <div className="mt-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Budgets</h2>
           
-          {/* Graphique en camembert */}
-          <div className="mb-6 rounded-2xl bg-white p-6 shadow-lg">
+          <div id="cam" className="hidden md:block mb-6 rounded-2xl bg-white p-6 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Répartition des budgets</h3>
             <BudgetPieChart budgets={budgets} />
           </div>
 
-          {/* Cartes de budget */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {Object.entries(budgets).map(([key, budget]) => {
               const depense = budget.depense || 0;
@@ -145,7 +146,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Dernières Transactions */}
         <div className="mt-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Dernières Transactions</h2>
           <div className="rounded-xl bg-white shadow-lg overflow-hidden">

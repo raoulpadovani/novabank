@@ -6,7 +6,7 @@ export default function Welcome() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Hero Section */}
+
       <div className="mx-auto max-w-4xl px-4 py-12 sm:py-20">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
@@ -43,7 +43,6 @@ export default function Welcome() {
           )}
         </div>
 
-        {/* Features */}
         <div className="mt-16 grid gap-8 sm:grid-cols-3">
           <div className="rounded-lg bg-white p-6 shadow">
             <div className="text-3xl">📊</div>

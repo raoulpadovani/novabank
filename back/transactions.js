@@ -1,10 +1,5 @@
 const con = require('./data');
 
-/**
- * Récupère les transactions d'un utilisateur
- * @param {number} userId
- * @param {(err:Error|null, rows?:Array)=>void} cb
- */
 function getTransactionsByUser(userId, cb) {
   const sql = `SELECT t.id, t.id_user, t.id_categorie, t.id_sous_categorie, t.titre, t.description, t.montant, t.date_transaction, t.lieu, t.date_creation, 
   c.nom AS categorie, c.type AS categorie_type, 
@@ -20,11 +15,6 @@ function getTransactionsByUser(userId, cb) {
   });
 }
 
-/**
- * Crée une transaction (revenu/depense)
- * @param {object} tx
- * @param {(err:Error|null, result?:object)=>void} cb
- */
 function createTransaction(tx, cb) {
   if (!tx || !tx.id_user || !tx.id_categorie || !tx.montant || !tx.date_transaction) {
     return cb(new Error('id_user, id_categorie, montant et date_transaction requis'));
@@ -50,12 +40,6 @@ function createTransaction(tx, cb) {
   });
 }
 
-/**
- * Supprime une transaction par id et vérifie qu'elle appartient bien à l'utilisateur
- * @param {number} id
- * @param {number} userId
- * @param {(err:Error|null, result?:object)=>void} cb
- */
 function deleteTransaction(id, userId, cb) {
   if (!id) return cb(new Error('id requis'));
   if (!userId) return cb(new Error('userId requis'));
@@ -74,16 +58,6 @@ function deleteTransaction(id, userId, cb) {
   });
 }
 
-/**
- * Réalise un virement entre deux utilisateurs (insertion de deux transactions dans une transaction SQL)
- * - Débit (depense) pour l'expéditeur
- * - Crédit (revenu) pour le destinataire
- * @param {number} fromUser
- * @param {number} toUser
- * @param {number} amount
- * @param {object} options {titre, description, date_transaction}
- * @param {(err:Error|null, result?:object)=>void} cb
- */
 function transferBetweenUsers(fromUser, toUser, amount, options, cb) {
   if (!fromUser || !toUser) return cb(new Error('fromUser et toUser requis'));
   if (!amount || amount <= 0) return cb(new Error('amount requis et doit être > 0'));

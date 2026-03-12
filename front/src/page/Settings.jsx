@@ -82,7 +82,6 @@ export default function Settings() {
 
       {success && <div className="mt-4 rounded bg-emerald-100 p-3 text-emerald-700">{success}</div>}
 
-      {/* Profile Section */}
       <div className="mt-8 rounded-xl bg-white p-6 shadow">
         <h2 className="text-lg font-semibold">Informations du compte</h2>
         <form onSubmit={handleUpdateProfile} className="mt-4 space-y-4">
@@ -110,7 +109,6 @@ export default function Settings() {
       </div>
 
      
-      {/* Danger Zone */}
       <div className="mt-8 rounded-xl border border-red-200 bg-red-50 p-6">
         <h2 className="text-lg font-semibold text-red-600">Zone de danger</h2>
         <p className="mt-2 text-sm text-gray-600">Ces actions sont irréversibles</p>

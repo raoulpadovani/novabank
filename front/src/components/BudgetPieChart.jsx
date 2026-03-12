@@ -38,7 +38,6 @@ export default function BudgetPieChart({ budgets }) {
   const totalBudget = Object.values(budgets).reduce((sum, b) => sum + b.montant, 0);
   const totalDepense = Object.values(budgets).reduce((sum, b) => sum + (b.depense || 0), 0);
 
-  // Données par catégorie
   const categoryData = Object.entries(budgets).map(([key, budget]) => ({
     id: key,
     label: budget.label,
@@ -47,7 +46,6 @@ export default function BudgetPieChart({ budgets }) {
     color: categoryColors[key],
   }));
 
-  // Données dépensé vs disponible par catégorie
   const categoryDetailData = Object.entries(budgets).flatMap(([key, budget]) => {
     const depense = budget.depense || 0;
     const reste = budget.montant - depense;
@@ -71,12 +69,13 @@ export default function BudgetPieChart({ budgets }) {
     ];
   }).filter(item => item.value > 0);
 
-  const innerRadius = 50;
-  const middleRadius = 110;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const innerRadius = isMobile ? 35 : 50;
+  const middleRadius = isMobile ? 75 : 110;
 
   return (
     <div className="w-full">
-      <div className="flex justify-center" style={{ height: 400 }}>
+      <div className="flex justify-center" style={{ height: isMobile ? 280 : 400 }}>
         <PieChart
           series={[
             {
@@ -94,8 +93,8 @@ export default function BudgetPieChart({ budgets }) {
               innerRadius: middleRadius,
               outerRadius: middleRadius + 25,
               data: categoryDetailData,
-              arcLabel: (item) => item.value > 50 ? `${item.value.toFixed(0)}€` : '',
-              arcLabelRadius: 145,
+              arcLabel: (item) => !isMobile && item.value > 50 ? `${item.value.toFixed(0)}€` : '',
+              arcLabelRadius: isMobile ? 95 : 145,
               valueFormatter: ({ value }) =>
                 `${value.toFixed(0)}€`,
               highlightScope: { fade: 'global', highlight: 'item' },
@@ -116,7 +115,6 @@ export default function BudgetPieChart({ budgets }) {
         </PieChart>
       </div>
       
-      {/* Légende personnalisée */}
       <div className="mt-6 grid grid-cols-2 gap-4">
         {Object.entries(budgets).map(([key, budget]) => {
           const depense = budget.depense || 0;

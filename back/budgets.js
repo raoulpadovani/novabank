@@ -1,6 +1,5 @@
 const con = require('./data');
 
-// Default budget allocation for user_id=1
 const DEFAULT_BUDGETS = {
 	loyer: 700,
 	alimentaire: 300,
@@ -8,7 +7,6 @@ const DEFAULT_BUDGETS = {
 	shopping: 300,
 };
 
-// Create table if missing
 con.query(
 	`CREATE TABLE IF NOT EXISTS budgets (
 		id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

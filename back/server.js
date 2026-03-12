@@ -1,40 +1,36 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 3000;
-const { registerUser, loginUser } = require('./user'); // chemin relatif depuis back/
+const { registerUser, loginUser } = require('./user');
 const { getDepensesByUser, createDepense, deleteDepense } = require('./depenses');
 const { getTransactionsByUser, createTransaction, deleteTransaction, transferBetweenUsers } = require('./transactions');
 
-// parser JSON avant les routes
-// CORS pour permettre les requêtes depuis le front en dev
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '../front/dist')));
+
 app.get('/', (req, res) => {
-  console.log('coucou plop');
   res.json({ message: 'NovaBank API OK' });
 });
 
 app.post('/register', (req, res) => {
-  console.log('controller register');
   registerUser(req.body, (err, user) => {
     if (err) {
       return res.status(400).json({ error: err.message || 'Registration failed' });
     }
-    // Générer un token simple (dans un vrai projet, utiliser JWT)
     const token = Buffer.from(`${user.id}:${user.email}:${Date.now()}`).toString('base64');
     res.status(201).json({ user, token });
   });
 });
 
 app.get('/login', (req, res) => {
-  console.log('GET login - récupération infos utilisateur');
   const { email } = req.query;
   if (!email) {
     return res.status(400).json({ error: 'email requis en query param' });
   }
-  // Récupère l'utilisateur sans vérifier le mot de passe
   const con = require('./data');
   con.query('SELECT id, nom, email FROM users WHERE email = ? LIMIT 1', [email], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -44,18 +40,15 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  console.log('controller login');
   const { email, mot_de_passe } = req.body;
   loginUser(email, mot_de_passe, (err, user) => {
     if (err) return res.status(400).json({ error: err.message });
-    // Générer un token simple (dans un vrai projet, utiliser JWT)
     const token = Buffer.from(`${user.id}:${user.email}:${Date.now()}`).toString('base64');
     res.json({ user, token });
   });
 });
 
 app.delete('/login/:email', (req, res) => {
-  console.log('DELETE login - suppression utilisateur');
   const { email } = req.params;
   if (!email) {
     return res.status(400).json({ error: 'email requis' });
@@ -68,7 +61,6 @@ app.delete('/login/:email', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-  console.log('GET register - liste tous les utilisateurs');
   const con = require('./data');
   con.query('SELECT id, nom, email FROM users', (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -77,7 +69,6 @@ app.get('/register', (req, res) => {
 });
 
 app.delete('/register/:email', (req, res) => {
-  console.log('DELETE register - suppression utilisateur');
   const { email } = req.params;
   if (!email) {
     return res.status(400).json({ error: 'email requis' });
@@ -89,7 +80,6 @@ app.delete('/register/:email', (req, res) => {
   });
 });
 
-// Liste des dépenses pour un utilisateur (compatibilité)
 app.get('/depenses', (req, res) => {
   const userId = parseInt(req.query.user_id, 10) || 1;
   getDepensesByUser(userId, (err, rows) => {
@@ -98,7 +88,6 @@ app.get('/depenses', (req, res) => {
   });
 });
 
-// Liste des transactions pour un utilisateur
 app.get('/transactions', (req, res) => {
   const userId = parseInt(req.query.user_id, 10) || 1;
   getTransactionsByUser(userId, (err, rows) => {
@@ -107,7 +96,6 @@ app.get('/transactions', (req, res) => {
   });
 });
 
-// Créer une dépense (compatibilité)
 app.post('/depenses', (req, res) => {
   const depense = req.body;
   createDepense(depense, (err, result) => {
@@ -116,7 +104,6 @@ app.post('/depenses', (req, res) => {
   });
 });
 
-// Créer une transaction (revenu/dépense)
 app.post('/transactions', (req, res) => {
   const tx = req.body;
   createTransaction(tx, (err, result) => {
@@ -125,7 +112,6 @@ app.post('/transactions', (req, res) => {
   });
 });
 
-// Supprimer une dépense (nécessite user_id pour vérification)
 app.delete('/depenses/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const userId = parseInt(req.query.user_id, 10);
@@ -140,7 +126,6 @@ app.delete('/depenses/:id', (req, res) => {
   });
 });
 
-// Supprimer une transaction (nécessite user_id pour vérification)
 app.delete('/transactions/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const userId = parseInt(req.query.user_id, 10);
@@ -155,7 +140,6 @@ app.delete('/transactions/:id', (req, res) => {
   });
 });
 
-// Virement entre deux utilisateurs
 app.post('/virements', (req, res) => {
   const { from_user, to_user, montant, titre, description, date_transaction, lieu } = req.body;
   transferBetweenUsers(parseInt(from_user, 10), parseInt(to_user, 10), parseFloat(montant), { titre, description, date_transaction, lieu }, (err, result) => {
@@ -164,9 +148,12 @@ app.post('/virements', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}`);
+app.get('/{*path}', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front/dist/index.html'));
 });
 
-
+const host = process.env.HOST || '0.0.0.0';
+app.listen(port, host, () => {
+  console.log(`Server listening on http://${host}:${port}`);
+});
 

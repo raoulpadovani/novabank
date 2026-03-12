@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// En production, utilise la même origine (Plesk servira tout depuis le même domaine)
+// En développement, utilise la variable d'env ou localhost:3000
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
+
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: API_URL,
 });
 
 api.interceptors.request.use((config) => {
